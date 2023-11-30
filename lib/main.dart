@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
     final applicationTheme = ApplicationTheme(
       theme: ThemeData(fontFamily: 'Lato'),
     );
-    return ChangeNotifierProvider(
-      create: (_) => ProductList(),
+    return ChangeNotifierProvider.value(
+      value: ProductList(),
       child: MaterialApp(
         theme: applicationTheme.configureTheme(color: Colors.deepPurple),
         home: const ProductsOverviewPage(),
