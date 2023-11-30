@@ -17,7 +17,7 @@ class ProductsOverviewPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+        color: Theme.of(context).colorScheme.background,
         child: const ProductGrid(),
       ),
     );

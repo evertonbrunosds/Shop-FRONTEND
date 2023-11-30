@@ -6,10 +6,19 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final product = ModalRoute.of(context)!.settings.arguments as Product;
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.title),
+        foregroundColor: Colors.white,
+        title: Text(
+          product.title,
+          style: const TextStyle(color: Colors.white),
+        ),
+        backgroundColor: colorScheme.primary,
+      ),
+      body: Container(
+        color: colorScheme.background,
       ),
     );
   }
