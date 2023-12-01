@@ -30,18 +30,29 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         ),
         actions: [
           PopupMenuButton(
+            color: colorScheme.secondary,
             icon: Icon(
               Icons.more_vert,
               color: colorScheme.secondary,
             ),
             itemBuilder: (_) => [
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: FilterOptions.favorite,
-                child: Text('Somente Favoritos'),
+                child: Text(
+                  'Somente Favoritos',
+                  style: TextStyle(
+                    color: colorScheme.primary,
+                  ),
+                ),
               ),
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: FilterOptions.all,
-                child: Text('Todos'),
+                child: Text(
+                  'Todos',
+                  style: TextStyle(
+                    color: colorScheme.primary,
+                  ),
+                ),
               ),
             ],
             onSelected: (final FilterOptions value) => setState(
