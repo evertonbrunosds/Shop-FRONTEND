@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/components/product_grid.dart';
 import 'package:shop/components/badgee.dart';
 import 'package:shop/models/cart.dart';
+import 'package:shop/utils/app_routes.dart';
 
 enum FilterOptions { favorite, all }
 
@@ -52,7 +53,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           //REDERIZAÇÃO ESPECÍFICA
           Consumer<Cart>(
             child: IconButton(
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).pushNamed(AppRoutes.CART),
               icon: Icon(
                 Icons.shopping_cart,
                 color: colorScheme.secondary,

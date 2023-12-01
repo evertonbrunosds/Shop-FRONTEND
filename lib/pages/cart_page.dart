@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shop/models/product.dart';
 
-class ProductDetailPage extends StatelessWidget {
-  const ProductDetailPage({super.key});
+class CartPage extends StatelessWidget {
+  const CartPage({super.key});
 
   @override
   Widget build(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final product = ModalRoute.of(context)!.settings.arguments as Product;
     return Scaffold(
       appBar: AppBar(
         foregroundColor: colorScheme.secondary,
@@ -15,7 +13,7 @@ class ProductDetailPage extends StatelessWidget {
         shadowColor: Colors.black,
         elevation: 5,
         title: Text(
-          product.name,
+          'Carrinho',
           style: TextStyle(
             color: colorScheme.secondary,
           ),
