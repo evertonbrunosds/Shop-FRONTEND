@@ -17,27 +17,30 @@ class Cart with ChangeNotifier {
     return total;
   }
 
-  void addItem(final Product product) => _items.containsKey(product.id)
-      ? _items.update(
-          product.id,
-          (currentItem) => CartItem(
-            id: currentItem.id,
-            productId: currentItem.productId,
-            name: currentItem.name,
-            quantity: currentItem.quantity + 1,
-            price: currentItem.price,
-          ),
-        )
-      : _items.putIfAbsent(
-          product.id,
-          () => CartItem(
-            id: Random().nextDouble().toString(),
-            productId: product.id,
-            name: product.name,
-            quantity: 1,
-            price: product.price,
-          ),
-        );
+  void addItem(final Product product) {
+    _items.containsKey(product.id)
+        ? _items.update(
+            product.id,
+            (currentItem) => CartItem(
+              id: currentItem.id,
+              productId: currentItem.productId,
+              name: currentItem.name,
+              quantity: currentItem.quantity + 1,
+              price: currentItem.price,
+            ),
+          )
+        : _items.putIfAbsent(
+            product.id,
+            () => CartItem(
+              id: Random().nextDouble().toString(),
+              productId: product.id,
+              name: product.name,
+              quantity: 1,
+              price: product.price,
+            ),
+          );
+    notifyListeners();
+  }
 
   void removeItem(final String productId) {
     _items.remove(productId);
