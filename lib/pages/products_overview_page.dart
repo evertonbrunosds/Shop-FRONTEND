@@ -71,7 +71,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
               ),
             ),
             builder: (ctx, cart, child) => Badgee(
-              value: cart.itemsCount.toString(),
+              value: cart.itemsCount,
               child: child!,
             ),
           ),
