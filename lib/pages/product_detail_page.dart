@@ -21,8 +21,35 @@ class ProductDetailPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
-        color: colorScheme.background,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                product.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              'R\$ ${product.price.toStringAsFixed(2)}',
+              style: TextStyle(
+                color: colorScheme.primary,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              width: double.infinity,
+              child: Text(
+                product.description,
+                textAlign: TextAlign.center,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
