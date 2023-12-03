@@ -6,17 +6,17 @@ class ApplicationTheme {
 
   ApplicationTheme({required this.theme});
 
-  ThemeData configureTheme({required final Color color}) {
+  ThemeData configureTheme({final Color? color}) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light.copyWith(
-        systemNavigationBarColor: color,
+        systemNavigationBarColor: color ?? Colors.grey.shade900,
       ),
     );
     return theme.copyWith(
       colorScheme: theme.colorScheme.copyWith(
-        primary: color,
-        secondary: color.withGreen(255),
-        background: color.withOpacity(0.3),
+        primary: color ?? Colors.grey.shade900,
+        secondary: (color ?? Colors.black).withGreen(255),
+        background: (color ?? Colors.black).withOpacity(0.3),
       ),
     );
   }

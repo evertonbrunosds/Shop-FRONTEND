@@ -30,7 +30,10 @@ class CartPage extends StatelessWidget {
           children: [
             Card(
               elevation: .1,
-              margin: const EdgeInsets.all(25),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 25,
+              ),
               color: colorScheme.background,
               child: Padding(
                 padding: const EdgeInsets.all(10),
@@ -48,7 +51,7 @@ class CartPage extends StatelessWidget {
                     Chip(
                       backgroundColor: colorScheme.primary,
                       label: Text(
-                        'R\$${cart.totalAmount}',
+                        'R\$ ${cart.totalAmount.toStringAsFixed(2)}',
                         style: TextStyle(
                           color: colorScheme.secondary,
                         ),

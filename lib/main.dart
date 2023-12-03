@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        theme: applicationTheme.configureTheme(color: Colors.brown),
+        theme: applicationTheme.configureTheme(),
         home: const ProductsOverviewPage(),
         routes: AppRoutes.ROUTES,
         debugShowCheckedModeBanner: false,

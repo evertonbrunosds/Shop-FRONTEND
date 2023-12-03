@@ -70,9 +70,12 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
                 color: colorScheme.secondary,
               ),
             ),
-            builder: (ctx, cart, child) => Badgee(
-              value: cart.itemsCount,
-              child: child!,
+            builder: (ctx, cart, child) => Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: Badgee(
+                value: cart.itemsCount,
+                child: child!,
+              ),
             ),
           ),
         ],
