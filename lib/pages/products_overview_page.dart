@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/product_grid.dart';
 import 'package:shop/components/badgee.dart';
 import 'package:shop/models/cart.dart';
@@ -21,6 +22,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(color: colorScheme.secondary),
         backgroundColor: colorScheme.primary,
         elevation: 5,
         shadowColor: Colors.black,
@@ -30,11 +32,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         ),
         actions: [
           PopupMenuButton(
-            color: colorScheme.secondary,
-            icon: Icon(
-              Icons.more_vert,
-              color: colorScheme.secondary,
-            ),
+            icon: const Icon(Icons.more_vert),
             itemBuilder: (_) => [
               PopupMenuItem(
                 value: FilterOptions.favorite,
@@ -65,10 +63,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           Consumer<Cart>(
             child: IconButton(
               onPressed: () => Navigator.of(context).pushNamed(AppRoutes.CART),
-              icon: Icon(
-                Icons.shopping_cart,
-                color: colorScheme.secondary,
-              ),
+              icon: const Icon(Icons.shopping_cart),
             ),
             builder: (ctx, cart, child) => Container(
               margin: const EdgeInsets.only(right: 10),
@@ -84,6 +79,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         color: Theme.of(context).colorScheme.background,
         child: ProductGrid(showFavoriteOnly: _showFavoriteOnly),
       ),
+      drawer: const AppDrawer(),
     );
   }
 }

@@ -42,22 +42,22 @@ class CartItemWidget extends StatelessWidget {
                 child: FittedBox(
                   child: Text(
                     '${cartItem.price}',
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: colorScheme.secondary),
                   ),
                 ),
               ),
             ),
             title: Text(
               cartItem.name,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: colorScheme.secondary),
             ),
             subtitle: Text(
               'Total: R\$ ${cartItem.price * cartItem.quantity}',
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: colorScheme.secondary),
             ),
             trailing: Text(
               '${cartItem.quantity}x',
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: colorScheme.secondary),
             ),
           ),
         ),
