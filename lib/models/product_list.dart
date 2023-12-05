@@ -9,6 +9,8 @@ class ProductList with ChangeNotifier {
 
   List<Product> get allItems => [..._items];
 
+  int get itensCount => _items.length;
+
   List<Product> get favoriteItems =>
       _items.where((item) => item.isFavorite).toList();
 
