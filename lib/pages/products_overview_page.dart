@@ -24,8 +24,6 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: colorScheme.secondary),
         backgroundColor: colorScheme.primary,
-        elevation: 5,
-        shadowColor: Colors.black,
         title: Text(
           'Minha Loja',
           style: TextStyle(color: colorScheme.secondary),

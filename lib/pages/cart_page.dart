@@ -16,8 +16,6 @@ class CartPage extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: colorScheme.secondary,
         backgroundColor: colorScheme.primary,
-        shadowColor: Colors.black,
-        elevation: 5,
         title: Text(
           'Carrinho',
           style: TextStyle(
