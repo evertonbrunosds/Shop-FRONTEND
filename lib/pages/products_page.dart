@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/components/app_drawer.dart';
 import 'package:shop/components/product_item.dart';
 import 'package:shop/models/product_list.dart';
+import 'package:shop/utils/app_routes.dart';
 
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
@@ -19,6 +20,14 @@ class ProductsPage extends StatelessWidget {
           'Gerenciar Produtos',
           style: TextStyle(color: colorScheme.secondary),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.PRODUCT_FORM);
+            },
+            icon: const Icon(Icons.add),
+          )
+        ],
       ),
       body: Container(
         color: colorScheme.background,

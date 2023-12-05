@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shop/pages/cart_page.dart';
 import 'package:shop/pages/orders_page.dart';
 import 'package:shop/pages/product_detail_page.dart';
+import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/products_overview_page.dart';
 import 'package:shop/pages/products_page.dart';
 
@@ -13,6 +14,7 @@ final class AppRoutes {
   static const CART = "/cart";
   static const ORDERS = '/orders';
   static const PRODUCTS = '/products';
+  static const PRODUCT_FORM = '/product-form';
 
   static final Map<String, WidgetBuilder> ROUTES = {
     HOME: (_) => const ProductsOverviewPage(),
@@ -20,5 +22,6 @@ final class AppRoutes {
     CART: (_) => const CartPage(),
     ORDERS: (_) => const OrdersPage(),
     PRODUCTS: (_) => const ProductsPage(),
+    PRODUCT_FORM: (_) => const ProductFormPage(),
   };
 }
