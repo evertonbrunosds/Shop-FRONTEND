@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shop/data/dummy_data.dart';
 import 'package:shop/models/product.dart';
-import 'package:shop/pages/product_form_page.dart';
 
 class ProductList with ChangeNotifier {
   final List<Product> _items = dummyProducts;
@@ -22,15 +21,24 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  void addProductFromData(final FormContent content) {
-    final newProduct = Product(
-      id: Random().nextDouble().toString(),
-      name: content.getName,
-      description: content.getDescription,
-      price: content.getPrice,
-      imageUrl: content.getUrlImage,
+  void updateProduct(final Product product) {
+    int index = _items.indexWhere((product) => product.id == product.id);
+    if (index > 0) {
+      _items[index] = product;
+      notifyListeners();
+    }
+  }
+
+  void saveProductFromData(final Map<String, Object> content) {
+    final hasId = content['id'] != null;
+    final product = Product(
+      id: hasId ? content['id'] as String : Random().nextDouble().toString(),
+      name: content['name'] as String,
+      description: content['description'] as String,
+      price: content['price'] as double,
+      imageUrl: content['imageUrl'] as String,
     );
-    addProduct(newProduct);
+    hasId ? updateProduct(product) : addProduct(product);
     notifyListeners();
   }
 }

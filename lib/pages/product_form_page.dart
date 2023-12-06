@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/models/product.dart';
 import 'package:shop/models/product_list.dart';
 
 class ProductFormPage extends StatefulWidget {
@@ -9,38 +10,30 @@ class ProductFormPage extends StatefulWidget {
   State<ProductFormPage> createState() => _ProductFormPageState();
 }
 
-class FormContent {
-  String _name = '';
-  double _price = 0;
-  String _description = '';
-  String _urlImage = '';
-
-  void setName(final String? name) => _name = name ?? '';
-
-  void setPrice(final double? price) => _price = price ?? 0;
-
-  void setDescription(final String? description) {
-    _description = description ?? '';
-  }
-
-  void setUrlImage(final String? urlImage) => _urlImage = urlImage ?? '';
-
-  String get getName => _name;
-
-  double get getPrice => _price;
-
-  String get getDescription => _description;
-
-  String get getUrlImage => _urlImage;
-}
-
 class _ProductFormPageState extends State<ProductFormPage> {
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final _formContent = FormContent();
+  final Map<String, Object> _formContent = {};
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_formContent.isEmpty) {
+      final argument = ModalRoute.of(context)?.settings.arguments;
+      if (argument != null) {
+        final product = argument as Product;
+        _formContent['id'] = product.id;
+        _formContent['name'] = product.name;
+        _formContent['price'] = product.price;
+        _formContent['description'] = product.description;
+        _formContent['imageUrl'] = product.imageUrl;
+        _imageUrlController.text = product.imageUrl;
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -73,7 +66,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       Provider.of<ProductList>(
         context,
         listen: false,
-      ).addProductFromData(_formContent);
+      ).saveProductFromData(_formContent);
       Navigator.of(context).pop();
     }
   }
@@ -103,12 +96,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _formContent['name'] as String,
                 decoration: const InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
-                onSaved: _formContent.setName,
+                onSaved: (name) => _formContent['name'] = name ?? '',
                 validator: (optionalName) {
                   final name = optionalName ?? '';
                   if (name.trim().isEmpty) {
@@ -121,6 +115,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 },
               ),
               TextFormField(
+                initialValue: _formContent['price']?.toString(),
                 decoration: const InputDecoration(labelText: 'Preço'),
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocus,
@@ -131,20 +126,20 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
-                onSaved: (price) => _formContent.setPrice(
-                  double.parse(price ?? '0'),
-                ),
+                onSaved: (price) => _formContent['price'] = price ?? '',
                 validator: (optionalPrice) {
                   final price = double.tryParse(optionalPrice ?? '') ?? -1;
                   return price <= 0 ? 'Informe um preço válido' : null;
                 },
               ),
               TextFormField(
+                initialValue: _formContent['description'] as String,
                 decoration: const InputDecoration(labelText: 'Descrição'),
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
-                onSaved: _formContent.setDescription,
+                onSaved: (description) =>
+                    _formContent['description'] = description ?? '',
                 validator: (optionalDescription) {
                   final name = optionalDescription ?? '';
                   if (name.trim().isEmpty) {
@@ -169,7 +164,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController,
                       onFieldSubmitted: (_) => _submitForm(),
-                      onSaved: _formContent.setUrlImage,
+                      onSaved: (imageUrl) =>
+                          _formContent['imageUrl'] = imageUrl ?? '',
                       validator: (optionalImageUrl) {
                         final imageUrl = optionalImageUrl ?? '';
                         return !isValidImageUrl(imageUrl)
