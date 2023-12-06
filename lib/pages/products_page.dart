@@ -11,7 +11,7 @@ class ProductsPage extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final products = Provider.of<ProductList>(context, listen: false);
+    final products = Provider.of<ProductList>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: colorScheme.secondary),

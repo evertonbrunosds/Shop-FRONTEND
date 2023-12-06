@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:shop/models/product.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/product_list.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -10,7 +9,7 @@ class ProductFormPage extends StatefulWidget {
   State<ProductFormPage> createState() => _ProductFormPageState();
 }
 
-class _FormContent {
+class FormContent {
   String _name = '';
   double _price = 0;
   String _description = '';
@@ -41,7 +40,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final _formContent = _FormContent();
+  final _formContent = FormContent();
 
   @override
   void dispose() {
@@ -71,13 +70,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
   void _submitForm() {
     if (_formKey.currentState?.validate() ?? false) {
       _formKey.currentState?.save();
-      final newProduct = Product(
-        id: Random().nextDouble().toString(),
-        name: _formContent.getName,
-        description: _formContent.getDescription,
-        price: _formContent.getPrice,
-        imageUrl: _formContent.getUrlImage,
-      );
+      Provider.of<ProductList>(
+        context,
+        listen: false,
+      ).addProductFromData(_formContent);
+      Navigator.of(context).pop();
     }
   }
 
