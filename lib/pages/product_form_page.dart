@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:shop/models/product.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -7,11 +10,38 @@ class ProductFormPage extends StatefulWidget {
   State<ProductFormPage> createState() => _ProductFormPageState();
 }
 
+class _FormContent {
+  String _name = '';
+  double _price = 0;
+  String _description = '';
+  String _urlImage = '';
+
+  void setName(final String? name) => _name = name ?? '';
+
+  void setPrice(final double? price) => _price = price ?? 0;
+
+  void setDescription(final String? description) {
+    _description = description ?? '';
+  }
+
+  void setUrlImage(final String? urlImage) => _urlImage = urlImage ?? '';
+
+  String get getName => _name;
+
+  double get getPrice => _price;
+
+  String get getDescription => _description;
+
+  String get getUrlImage => _urlImage;
+}
+
 class _ProductFormPageState extends State<ProductFormPage> {
   final _priceFocus = FocusNode();
   final _descriptionFocus = FocusNode();
   final _imageUrlFocus = FocusNode();
   final _imageUrlController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _formContent = _FormContent();
 
   @override
   void dispose() {
@@ -30,6 +60,17 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   void _updateImage() => setState(() {});
 
+  void _submitForm() {
+    _formKey.currentState?.save();
+    final newProduct = Product(
+      id: Random().nextDouble().toString(),
+      name: _formContent.getName,
+      description: _formContent.getDescription,
+      price: _formContent.getPrice,
+      imageUrl: _formContent.getUrlImage,
+    );
+  }
+
   @override
   Widget build(final BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -41,10 +82,17 @@ class _ProductFormPageState extends State<ProductFormPage> {
           'Formulário de Produto',
           style: TextStyle(color: colorScheme.secondary),
         ),
+        actions: [
+          IconButton(
+            onPressed: _submitForm,
+            icon: const Icon(Icons.save),
+          ),
+        ],
       ),
       body: Container(
         color: colorScheme.background,
         child: Form(
+          key: _formKey,
           child: ListView(
             children: [
               TextFormField(
@@ -53,6 +101,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_priceFocus);
                 },
+                onSaved: _formContent.setName,
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Preço'),
@@ -64,24 +113,31 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
+                onSaved: (price) => _formContent.setPrice(
+                  double.parse(price ?? '0'),
+                ),
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Descrição'),
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
                 maxLines: 3,
+                onSaved: _formContent.setDescription,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                     child: TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Url da Imagem'),
+                      decoration: const InputDecoration(
+                        labelText: 'Url da Imagem',
+                      ),
                       focusNode: _imageUrlFocus,
                       keyboardType: TextInputType.url,
                       textInputAction: TextInputAction.done,
                       controller: _imageUrlController,
+                      onFieldSubmitted: (_) => _submitForm(),
+                      onSaved: _formContent.setUrlImage,
                     ),
                   ),
                   Container(
