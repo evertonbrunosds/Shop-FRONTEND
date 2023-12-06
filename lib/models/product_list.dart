@@ -29,6 +29,11 @@ class ProductList with ChangeNotifier {
     }
   }
 
+  void remove(final Product product) {
+    _items.removeWhere((currentProduct) => currentProduct.id == product.id);
+    notifyListeners();
+  }
+
   void saveProductFromData(final Map<String, Object> content) {
     final hasId = content['id'] != null;
     final product = Product(
