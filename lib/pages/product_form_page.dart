@@ -47,7 +47,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
   @override
   void initState() {
     super.initState();
-    _imageUrlController.addListener(_updateImage);
+    _imageUrlFocus.addListener(_updateImage);
   }
 
   void _updateImage() => setState(() {});
@@ -126,9 +126,11 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onFieldSubmitted: (_) {
                   FocusScope.of(context).requestFocus(_descriptionFocus);
                 },
-                onSaved: (price) => _formContent['price'] = price ?? '',
+                onSaved: (price) =>
+                    _formContent['price'] = double.parse(price ?? '0'),
                 validator: (optionalPrice) {
-                  final price = double.tryParse(optionalPrice ?? '') ?? -1;
+                  final priceString = optionalPrice ?? '';
+                  final price = double.tryParse(priceString) ?? -1;
                   return price <= 0 ? 'Informe um preço válido' : null;
                 },
               ),
@@ -141,10 +143,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 onSaved: (description) =>
                     _formContent['description'] = description ?? '',
                 validator: (optionalDescription) {
-                  final name = optionalDescription ?? '';
-                  if (name.trim().isEmpty) {
+                  final description = optionalDescription ?? '';
+                  if (description.trim().isEmpty) {
                     return 'Descrição é obrigatória';
-                  } else if (name.trim().length < 3) {
+                  } else if (description.trim().length < 3) {
                     return 'Descrição precisa de no mínimo de 3 letras';
                   } else {
                     return null;
