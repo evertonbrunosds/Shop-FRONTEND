@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:shop/data/dummy_data.dart';
 import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
+  final _baseUrl = 'http://192.168.0.106:8080/api';
   final List<Product> _items = dummyProducts;
 
   ProductList();
@@ -17,6 +20,21 @@ class ProductList with ChangeNotifier {
       _items.where((item) => item.isFavorite).toList();
 
   void addProduct(final Product product) {
+    http.post(
+      Uri.parse('$_baseUrl/product'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(
+        {
+          "name": product.name,
+          "description": product.description,
+          "price": product.price,
+          "imageUrl": product.imageUrl,
+          "isFavorite": product.isFavorite,
+        },
+      ),
+    );
     _items.add(product);
     notifyListeners();
   }
