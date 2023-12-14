@@ -18,13 +18,7 @@ class ProductList with ChangeNotifier {
       _items.where((item) => item.isFavorite).toList();
 
   void addProduct(final Product product) {
-    _httpManager.post((request) {
-      request.body['name'] = product.name;
-      request.body['description'] = product.description;
-      request.body['price'] = product.price;
-      request.body['imageUrl'] = product.imageUrl;
-      request.body['isFavorite'] = product.isFavorite;
-    });
+    _httpManager.post((request) => request.body.addAll(product.toJson()));
     _items.add(product);
     notifyListeners();
   }
