@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -18,9 +19,17 @@ class ProductList with ChangeNotifier {
       _items.where((item) => item.isFavorite).toList();
 
   void addProduct(final Product product) {
-    _httpManager.post((request) => request.body.addAll(product.toJson()));
-    _items.add(product);
-    notifyListeners();
+    _httpManager.post(
+      (request) {
+        request.body.addAll(product.parseMap());
+      },
+    ).then(
+      (response) {
+        final newProduct = Product.parse(jsonDecode(response.body));
+        _items.add(newProduct);
+        notifyListeners();
+      },
+    );
   }
 
   void updateProduct(final Product product) {

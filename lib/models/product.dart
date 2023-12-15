@@ -24,7 +24,7 @@ class Product extends JsonSerializable with ChangeNotifier {
   }
 
   @override
-  Map<String, Object> toJson() {
+  Map<String, dynamic> parseMap() {
     return {
       'id': id,
       'name': name,
@@ -35,14 +35,13 @@ class Product extends JsonSerializable with ChangeNotifier {
     };
   }
 
-  @override
-  T toType<T>(final Map<String, Object> content) {
+  static Product parse(final Map<String, dynamic> content) {
     return Product(
       id: content['id'] as String,
       name: content['name'] as String,
       description: content['description'] as String,
       price: content['price'] as double,
       imageUrl: content['imageUrl'] as String,
-    ) as T;
+    );
   }
 }
