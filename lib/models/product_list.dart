@@ -18,8 +18,8 @@ class ProductList with ChangeNotifier {
   List<Product> get favoriteItems =>
       _items.where((item) => item.isFavorite).toList();
 
-  void addProduct(final Product product) {
-    _httpManager.post(
+  Future<void> addProduct(final Product product) {
+    return _httpManager.post(
       (request) {
         request.body.addAll(product.parseMap());
       },
@@ -32,7 +32,7 @@ class ProductList with ChangeNotifier {
     );
   }
 
-  void updateProduct(final Product product) {
+  Future<void> updateProduct(final Product product) {
     final index = _items.indexWhere((currentProduct) {
       return currentProduct.id == product.id;
     });
@@ -40,6 +40,7 @@ class ProductList with ChangeNotifier {
       _items[index] = product;
       notifyListeners();
     }
+    return Future.value();
   }
 
   void remove(final Product product) {
@@ -47,7 +48,7 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  void saveProductFromData(final Map<String, Object> content) {
+  Future<void> saveProductFromData(final Map<String, Object> content) {
     final hasId = content['id'] != null;
     final product = Product(
       id: hasId ? content['id'] as String : Random().nextDouble().toString(),
@@ -56,7 +57,6 @@ class ProductList with ChangeNotifier {
       price: content['price'] as double,
       imageUrl: content['imageUrl'] as String,
     );
-    hasId ? updateProduct(product) : addProduct(product);
-    notifyListeners();
+    return hasId ? updateProduct(product) : addProduct(product);
   }
 }
