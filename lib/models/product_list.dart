@@ -29,7 +29,10 @@ class ProductList with ChangeNotifier {
         _items.add(newProduct);
         notifyListeners();
       },
-    );
+    ).catchError((error) {
+      print(error.toString());
+      throw error;
+    });
   }
 
   Future<void> updateProduct(final Product product) {
